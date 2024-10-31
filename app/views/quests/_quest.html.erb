@@ -1,0 +1,14 @@
+<!--<div id="<%#= dom_id quest %>">-->
+<!--  <p class="my-5">-->
+<!--    <strong class="block font-medium mb-1">Name:</strong>-->
+    <%#= quest.name %>
+<!--  </p>-->
+
+<!--<hr>-->
+<!--</div>-->
+
+<li id="<%= "#{dom_id(quest)}_container" %>" class="py-2 px-4 border-b border-gray-300">
+  <%= turbo_frame_tag dom_id(quest) do %>
+    <%= link_to quest.name, edit_quest_path(quest) %>
+  <% end %>
+</li>

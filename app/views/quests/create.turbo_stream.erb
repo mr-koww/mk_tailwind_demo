@@ -1,0 +1,10 @@
+<!-- Заменяем форму -->
+<%= turbo_stream.replace "#{dom_id(Quest.new)}_form" do %>
+  <%= render "form", quest: Quest.new %>
+<% end %>
+
+<!-- Вставляем quest -->
+<%= turbo_stream.prepend "quests" do %>
+  <%= render "quest", quest: @quest %>
+<% end %>
+
