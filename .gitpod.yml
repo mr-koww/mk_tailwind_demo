@@ -1,0 +1,12 @@
+tasks:
+  - name: Install RVM and Ruby 3.2.3
+    init: |
+      # Install RVM
+      curl -sSL https://get.rvm.io | bash -s stable
+      # Load RVM into the shell
+      source ~/.rvm/scripts/rvm
+      # Install Ruby 3.2.3
+      rvm install 3.2.3
+      source ~/.rvm/scripts/rvm
+      # Set Ruby 3.2.3 as the default version
+      rvm use 3.2.3 --default
