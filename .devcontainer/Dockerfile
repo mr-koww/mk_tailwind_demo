@@ -14,12 +14,6 @@ RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && \
 RUN curl -sSL https://get.rvm.io | bash -s stable
 
 # Настраиваем окружение RVM и устанавливаем Ruby 3.2.3
-RUN bash -c "source ~/.rvm/scripts/rvm && \
-    rvm install 3.2.3 && \
-    rvm use 3.2.3 --default"
+RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && rvm install 3.2.3"
 
-# Обеспечиваем доступность RVM в будущих сессиях
-RUN echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc
-
-# Возвращаемся к пользователю root, если необходимы дальнейшие конфигурации
-USER root
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
