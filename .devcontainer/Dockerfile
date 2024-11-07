@@ -1,19 +1,17 @@
 FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu
 
-# use this Dockerfile to install additional tools you might need, e.g.
-RUN apt-get update && apt-get -y install
+# Update and install dependencies
+RUN apt-get update && apt-get -y install curl gnupg2
 
-# RVM
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-RUN curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+# Install RVM dependencies and import keys
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && \
+    curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+
+# Install RVM
 RUN curl -sSL https://get.rvm.io | bash -s stable
 
-# Load RVM into the shell
-RUN echo '. ~/.rvm/scripts/rvm' >> ~/.bashrc
-RUN . ~/.bashrc
+# Set up RVM environment and install Ruby 3.2.3
+RUN bash -c "source ~/.rvm/scripts/rvm && rvm install 3.2.3 && rvm use 3.2.3 --default"
 
-# Install Ruby 3.2.3
-RUN rvm install 3.2.3
-
-# Set Ruby 3.2.3 as the default version
-RUN rvm use 3.2.3 --default
+# Make RVM available for future shell sessions
+RUN echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc
