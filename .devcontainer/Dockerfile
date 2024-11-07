@@ -1,16 +1,10 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu
+FROM gitpod/workspace-full
+USER gitpod
 
-# Update and install dependencies
-RUN apt-get update && apt-get -y install curl gnupg2
-
-# Устанавливаем RVM зависимости и импортируем ключи
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && \
-    curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
-
-# Устанавливаем RVM
-RUN curl -sSL https://get.rvm.io | bash -s stable
-
-# Настраиваем окружение RVM и устанавливаем Ruby 3.2.3
-RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && rvm install 3.2.3"
-
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
+# Install Ruby version 3.3.6 and set it as default
+RUN _ruby_version=ruby-3.3.6 \
+    && printf "rvm_gems_path=/home/gitpod/.rvm\n" > ~/.rvmrc \
+    && bash -lc "rvm reinstall ${_ruby_version} && \
+                 rvm use ${_ruby_version} --default" \
+    && printf "rvm_gems_path=/workspace/.rvm" > ~/.rvmrc \
+    && printf "{ rvm use \$(rvm current); } >/dev/null 2>&1\n" >> "$HOME/.bashrc.d/70-ruby"
