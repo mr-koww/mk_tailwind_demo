@@ -9,7 +9,8 @@ RUN curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
 RUN curl -sSL https://get.rvm.io | bash -s stable
 
 # Load RVM into the shell
-RUN source ~/.rvm/scripts/rvm
+RUN echo '. ~/.rvm/scripts/rvm' >> ~/.bashrc
+RUN . ~/.bashrc
 
 # Install Ruby 3.2.3
 RUN rvm install 3.2.3
